@@ -1,0 +1,63 @@
+body {
+    background: #333333;
+    color: #dedede;
+    font-family: monospace;
+}
+
+.post-block .short-title {
+    color: lavender;
+}
+
+.post-block .short-title::before {
+    color: orange;
+    content: 'function '
+}
+
+
+.post-block .short-title::after {
+    content: '() {'
+}
+
+.post-block::after {
+    content: '};';
+}
+
+.post-block .title {
+    color: khaki;
+}
+
+.post-block .code-declaration::before {
+    content: 'const ';
+    color: red;
+}
+
+.post-block .title::before {
+    content: 'fullTitle = \'';
+    color: lavender;
+}
+
+.post-block .title::after {
+    content: '\';'
+}
+
+.post-block .post-content {
+    margin-left: 2em;
+}
+
+.post-block .code-comment * {
+    margin-left: 2em;
+}
+
+.post-block .code-comment {
+    color: green;
+    width: 46em;
+    white-space: pre-wrap;
+}
+
+.post-block .code-comment::before {
+    content: '/* ';
+}
+
+.post-block .code-comment::after {
+    content: ' */'
+}
