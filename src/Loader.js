@@ -16,8 +16,10 @@ export default class Loader extends React.PureComponent {
 
 
     render() {
-            return this.state.posts.map(post => (
+            return <div className="outer">
+            {this.state.posts.map(post => (
                 <Post key={post.id} {...post} />
-            ))
+            ))}
+            </div>
     }
 }

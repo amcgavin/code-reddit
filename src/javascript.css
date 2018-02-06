@@ -1,63 +1,63 @@
-body {
-    background: #333333;
-    color: #dedede;
-    font-family: monospace;
+.chain-link-control::before {
+    content: '.then(() => {';
 }
 
-.post-block .short-title {
-    color: lavender;
+.chain-link::after {
+    content: '})';
 }
 
-.post-block .short-title::before {
-    color: orange;
-    content: 'function '
+.chain-link-node::after {
+    content: 'return Promise.resolve()'
 }
 
-
-.post-block .short-title::after {
-    content: '() {'
+.function::after {
+    content: '()';
 }
 
-.post-block::after {
-    content: '};';
+.function::before {
+    content: 'function ';
 }
 
-.post-block .title {
-    color: khaki;
+.block::before {
+    content: '{';
 }
 
-.post-block .code-declaration::before {
+.block::after {
+    content: '}';
+}
+
+.declaration::before {
     content: 'const ';
-    color: red;
 }
 
-.post-block .title::before {
-    content: 'fullTitle = \'';
-    color: lavender;
+.declaration::after {
+    content: ';';
 }
 
-.post-block .title::after {
-    content: '\';'
+.string::before, .string::after {
+    content: '\'';
 }
 
-.post-block .post-content {
-    margin-left: 2em;
+.variable::before {
+    content: attr(data-name);
 }
 
-.post-block .code-comment * {
-    margin-left: 2em;
+.variable::after {
+    content: ' = ';
 }
 
-.post-block .code-comment {
-    color: green;
-    width: 46em;
-    white-space: pre-wrap;
+.comment::before {
+    content: '/*';
 }
 
-.post-block .code-comment::before {
-    content: '/* ';
+.comment::after {
+    content: '*/';
 }
 
-.post-block .code-comment::after {
-    content: ' */'
+.chain-link-start::before {
+    content: 'return';
+}
+
+.chain-link-start::after {
+    content: ' ' attr(data-state) '()';
 }
