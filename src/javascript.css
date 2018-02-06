@@ -61,3 +61,11 @@
 .chain-link-start::after {
     content: ' ' attr(data-state) '()';
 }
+
+.outer::before {
+    content: '(function ' attr(data-name) '()';
+}
+
+.outer::after {
+    content: ')();';
+}
