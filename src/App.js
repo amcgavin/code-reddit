@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import Loader from './Loader';
 import TextInput from './TextInput';
-import './javascript.css';
-import './theme.css';
+import './rules.css';
 
 class App extends Component {
-  state = { subreddit: '' }
+  state = { subreddit: 'all' }
 
   setSubreddit = subreddit => this.setState({subreddit});
   render() {

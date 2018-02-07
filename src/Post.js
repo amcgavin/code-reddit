@@ -1,7 +1,20 @@
 import React from 'react';
 import _ from 'lodash';
+import Block from './components/Block';
+import Declaration from './components/Declaration';
+import BlockComment from './components/BlockComment';
+import QuoteString from './components/QuoteString';
+import Statement from './components/Statement';
+import Function from './components/Function';
+import FunctionCall from './components/FunctionCall';
+import IfThen from './components/IfThen';
 
-const FormattedText = ({children}) => <p>{_.unescape(children)}</p>
+const FormattedText = ({ children }) => <p className="formatted">{_.unescape(children)}</p>
+
+const IfThenFunctionString = IfThen(FunctionCall, QuoteString);
+
+const renderComments = (comments) => comments.map(comment => (<Comment key={comment.data.id} {...comment.data} />));
+
 
 class Comment extends React.PureComponent {
     state = { hidden: false };
@@ -11,23 +24,21 @@ class Comment extends React.PureComponent {
     }
 
     renderBody = () => {
-        return <div>
-            <div className="chain-link-node">
-                <div className="comment">
+        return <IfThenFunctionString left="getNextAuthor" right={this.props.author}>
+            <Block>
+                <BlockComment>
                     <FormattedText>{this.props.body}</FormattedText>
+                </BlockComment>
+                <div>
+                    {this.props.replies ? renderComments(this.props.replies.data.children) : null}
                 </div>
-            </div>
-            <div>
-                {this.props.replies ? this.props.replies.data.children.map(c => (
-                    <Comment key={c.data.id} {...c.data} />
-                )) : null}
-            </div>
-        </div>
+            </Block>
+        </IfThenFunctionString>
     };
 
     render() {
         return <div className="chain-link">
-        <span onClick={this.onToggle} className="chain-link-control" />
+            <span onClick={this.onToggle} className="chain-link-control" />
             {this.state.hidden ? null : this.renderBody()}
         </div>;
     }
@@ -70,9 +81,7 @@ export default class Post extends React.PureComponent {
         });
     }
 
-    renderComments = () => this.state.comments.map(comment => (
-        <Comment key={comment.data.id} {...comment.data} />
-    ));
+
 
     getDataState = () => {
         if (this.state.loading) return 'loadingComments';
@@ -83,26 +92,27 @@ export default class Post extends React.PureComponent {
 
     renderMainBlock = () => (
         <div>
-            <p className="declaration">
-                <span className="variable" data-name="fullTitle" />
-                <span className="string">{this.props.title}</span>
-            </p>
-            <div className="comment">
+            <Statement>
+                <Declaration value="fullTitle">
+                    <QuoteString value={this.props.title} />
+                </Declaration>
+            </Statement>
+            <BlockComment>
                 <FormattedText>{this.props.selftext}</FormattedText>
-            </div>
-            <div className="chain">
-                <span onClick={this.loadComments} className="chain-link-start" data-state={this.getDataState()}></span>
-                {this.state.collapsedComments ? null : this.renderComments()}
-            </div>
+            </BlockComment>
+
+            <Statement><FunctionCall onClick={this.loadComments} value={this.getDataState()} /></Statement>
+            {this.state.collapsedComments ? null : renderComments(this.state.comments)}
+
         </div>
     );
 
     render() {
-        return <div className="post">
-            <a onClick={this.onTitleClicked} className="function">{this.getShortTitle()}</a>
-            <div className="block">
+        return <div>
+            <Function onClick={this.onTitleClicked} value={this.getShortTitle()} />
+            <Block>
                 {this.state.collapsedSelf ? <p>...</p> : this.renderMainBlock()}
-            </div>
+            </Block>
         </div>
     }
 }

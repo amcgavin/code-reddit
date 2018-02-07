@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default class TextInput extends React.PureComponent {
-    state = {value: ''};
+    state = {value: 'all'};
 
     onTextChange = e => {
         this.setState({value: e.target.value});

@@ -152,70 +152,9 @@ select[multiple]
 }
 
 body {
-    background: #333333;
-    color: #dedede;
-    font-family: monospace;
-}
-
-.post {
-    margin-bottom: 2em;
-}
-
-.function, .chain-link-start, .chain-link-control {
-    cursor: pointer;
-}
-
-.function:hover, .chain-link-start:hover, .chain-link-control:hover {
-    text-decoration: underline;
-}
-
-.block {
-    margin-left: 2em;
-}
-
-.block::before {
-    margin-left: -2em;
-}
-
-.block::after {
-    margin-left: -2em;
-}
-
-.comment {
-    white-space: pre-wrap;
-    width: 46em;
-}
-
-.chain-link, .chain-link-node {
-    margin-left: 2em;
-}
-
-.function {
-    color: mediumorchid;
-}
-
-.function::after {
-    color: #dedede;
-}
-
-.function::before {
-    color: orange;
-}
-
-.string {
-    color: khaki;
-}
-
-.variable::before {
-    color: dodgerblue;
-}
-
-.declaration::before, .chain-link-start::before {
-    color: mediumpurple;
-}
-
-.comment {
-    color: lightsteelblue;
+	font-family: monospace;
+	background: #212121;
+	color: #cecece;
 }
 
 input {
@@ -223,4 +162,25 @@ input {
     border: none;
     color: inherit;
     font: inherit;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.clickable:hover {
+	text-decoration: underline;
+}
+
+.text::before {
+	content: attr(data-text);
+}
+
+.indent {
+	margin-left: 2em;
+}
+
+.formatted { 
+	width: 46em;
+	white-space: pre-wrap;
 }
