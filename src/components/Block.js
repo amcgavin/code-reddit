@@ -11,8 +11,12 @@ const Block = ({ children }) => [<Jargon key={0}>{"  {"}</Jargon>, <div key={1}>
     <p></p>
 </div>];
 
+const PythonBlock = ({ children }) => <div className="indent">{children}</div>
+
 export default function BlockFactory({ language, ...props }) {
     switch (language) {
+        case 'python':
+            return <PythonBlock {...props} />
         default:
             return <Block {...props} />
     }

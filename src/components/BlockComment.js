@@ -1,23 +1,31 @@
 import React from 'react';
 import Jargon from './Jargon';
 
-const styles = {color: 'grey'};
+const styles = { color: 'grey' };
 
-const BlockComment = ({children}) => <div style={styles}>
+const BlockComment = ({ children }) => <div style={styles}>
     <p>
         <Jargon>{"/*"}</Jargon>
-        </p>
+    </p>
     <div>
-{children}
-</div>
-<p>
-<Jargon>{"*/"}</Jargon>
+        {children}
+    </div>
+    <p>
+        <Jargon>{"*/"}</Jargon>
     </p>
 </div>;
 
-export default function BlockCommentFactory({language, ...props}) {
-    switch(language) {
+const PythonBlockComment = ({ children }) => <div style={styles}>
+    <p>"""</p>
+    <div>{children}</div>
+    <p>"""</p>
+</div>;
+
+export default function BlockCommentFactory({ language, ...props }) {
+    switch (language) {
+        case 'python':
+        return <PythonBlockComment {...props} />
         default:
-            return <BlockComment {...props}/>
+            return <BlockComment {...props} />
     }
 }

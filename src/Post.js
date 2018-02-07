@@ -1,23 +1,34 @@
 import React from 'react';
 import _ from 'lodash';
-import Block from './components/Block';
-import Declaration from './components/Declaration';
-import BlockComment from './components/BlockComment';
-import QuoteString from './components/QuoteString';
-import Statement from './components/Statement';
-import Function from './components/Function';
-import FunctionCall from './components/FunctionCall';
-import IfThen from './components/IfThen';
-import Constant from './components/Constant';
+import UnwrappedBlock from './components/Block';
+import UnwrappedDeclaration from './components/Declaration';
+import UnwrappedBlockComment from './components/BlockComment';
+import UnwrappedQuoteString from './components/QuoteString';
+import UnwrappedStatement from './components/Statement';
+import UnwrappedFunction from './components/Function';
+import UnwrappedFunctionCall from './components/FunctionCall';
+import UnwrappedIfThen from './components/IfThen';
+import UnwrappedConstant from './components/Constant';
 
-const Empty = () => null;
+const LanguageHOC = language => Component => props => <Component language={language} {...props} />;
+
+const Javascript = LanguageHOC('python');
+const Block = Javascript(UnwrappedBlock);
+const BlockComment = Javascript(UnwrappedBlockComment);
+const Constant = Javascript(UnwrappedConstant);
+const Declaration = Javascript(UnwrappedDeclaration);
+const Function = Javascript(UnwrappedFunction);
+const FunctionCall = Javascript(UnwrappedFunctionCall);
+const IfThen = Javascript(UnwrappedIfThen);
+const QuoteString = Javascript(UnwrappedQuoteString);
+const Statement = Javascript(UnwrappedStatement);
+
+
 const FormattedText = ({ children }) => <div className="formatted">{_.unescape(children)}</div>
-
-const IfThenFunctionString = IfThen(FunctionCall, Empty, Empty);
 
 const renderComments = (comments) => comments.map(comment => (<Comment key={comment.data.id} {...comment.data} />));
 
-const Clickable = ({children}) => <span className="clickable">{children}</span>;
+const Clickable = ({ children }) => <span className="clickable">{children}</span>;
 
 class Comment extends React.PureComponent {
     state = { hidden: false };
@@ -46,7 +57,11 @@ class Comment extends React.PureComponent {
 
     render() {
         return <div className="chain-link">
-            <Clickable><IfThenFunctionString onClick={this.onToggle} left={`!${this.state.hidden ? 'showNextComment' : 'hideNextComment'}`} /></Clickable>
+            <Clickable>
+                <IfThen onClick={this.onToggle}>
+                    <FunctionCall value={this.state.hidden ? 'showNextComment' : 'hideNextComment'} />
+                </IfThen>
+            </Clickable>
             <Block>
                 {this.state.hidden ? null : this.renderBody()}
             </Block>

@@ -2,7 +2,7 @@ import React from 'react';
 import Jargon from './Jargon';
 
 const styles = {
-    color: 'orange'
+    color: 'dodgerblue'
 }
 
 const Variable = ({value, ...props}) => <span {...props}><Jargon style={styles}>{value}</Jargon></span>;

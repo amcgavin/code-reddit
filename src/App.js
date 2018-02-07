@@ -12,10 +12,10 @@ class App extends Component {
   render() {
     return (
       <div>
-      <Class value={this.state.subreddit}>
+      <Class language="python" value={this.state.subreddit}>
           <TextInput onChange={this.setSubreddit}/>
           </Class>
-          <Block>
+          <Block language="python">
           <Loader subreddit={this.state.subreddit} />
           </Block>
       </div>

@@ -5,13 +5,24 @@ const styles = {
     color: 'darkorchid'
 }
 
-const IfThen = (Left, Equality, Right) => ({ left, equality, right, ...props }) => <span {...props}>
-        <Jargon style={styles}>if</Jargon>
-        <Jargon>(</Jargon>
-        <Left value={left} />
-        <Equality value={equality} />
-        <Right value={right} />
-        <Jargon>)</Jargon>
-        </span>;
+const IfThen = ({ children, ...props }) => <span {...props}>
+    <Jargon style={styles}>if</Jargon>
+    <Jargon>(</Jargon>
+    {children}
+    <Jargon>)</Jargon>
+</span>;
 
-export default (Left, Equality, Right) => IfThen(Left, Equality, Right);
+const PythonIfThen = ({ children, ...props }) => <span {...props}>
+    <Jargon style={styles}>if </Jargon>
+    {children}
+    <Jargon>:</Jargon>
+</span>;
+
+export default function IfThenFactory({ language, ...props }) {
+    switch (language) {
+        case 'python':
+        return <PythonIfThen {...props} />
+        default:
+            return <IfThen {...props} />
+    }
+}

@@ -9,13 +9,20 @@ const styles = {
     }
 }
 
-const Class = ({value, children, ...props}) => <span>
+const Class = ({ value, children, ...props }) => <span>
     <Jargon style={styles.keyword}>class </Jargon>{children}<Jargon style={styles.keyword}> extends </Jargon><Jargon style={styles.variable}>Subreddit</Jargon>
 </span>;
 
- export default function ClassFactory({language, ...props}) {
-     switch(language) {
-         default: 
-            return <Class {...props}/>
-     }
- }
+const PythonClass = ({ value, children, ...props }) => <span>
+    <Jargon style={styles.keyword}>class </Jargon>{children}<Jargon>(</Jargon><Jargon style={styles.variable}>Subreddit</Jargon><Jargon>):</Jargon>
+</span>;
+
+
+export default function ClassFactory({ language, ...props }) {
+    switch (language) {
+        case 'python':
+            return <PythonClass {...props} />
+        default:
+            return <Class {...props} />
+    }
+}
