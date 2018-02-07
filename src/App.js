@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Loader from './Loader';
 import TextInput from './TextInput';
+import Class from './components/Class';
+import Block from './components/Block';
 import './rules.css';
 
 class App extends Component {
@@ -9,11 +11,13 @@ class App extends Component {
   setSubreddit = subreddit => this.setState({subreddit});
   render() {
     return (
-      <div className="outer" data-name={this.state.subreddit}>
-        <div className="block">
+      <div>
+      <Class value={this.state.subreddit}>
           <TextInput onChange={this.setSubreddit}/>
+          </Class>
+          <Block>
           <Loader subreddit={this.state.subreddit} />
-        </div>
+          </Block>
       </div>
     );
   }

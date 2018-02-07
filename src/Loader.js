@@ -5,9 +5,10 @@ export default class Loader extends React.PureComponent {
 
     state = {posts: [], loading: false};
 
-    componentWillReceiveProps(nextProps) {
+    onUpdate = (subreddit) => {
+        if(this.state.loading) return;
         this.setState({loading: true});
-        fetch(`https://www.reddit.com/r/${nextProps.subreddit}.json`).then(res => res.json())
+        fetch(`https://www.reddit.com/r/${subreddit}.json`).then(res => res.json())
         .then(json => {
             const posts = json.data.children.map(child => child.data);
             this.setState({posts});
@@ -16,6 +17,13 @@ export default class Loader extends React.PureComponent {
         .then(() => this.setState({loading: false}))
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.onUpdate(nextProps.subreddit);
+    }
+
+    componentWillMount() {
+        this.onUpdate(this.props.subreddit);
+    }
 
     render() {
             return <div>

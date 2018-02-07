@@ -12,14 +12,12 @@ export default class TextInput extends React.PureComponent {
         this.props.onChange(this.state.value);
     };
 
+    getStyle = () => {
+        return {width: `${this.state.value.length + 1}ch`}
+    }
+
     render() {
-        return <div>
-            <p className="declaration">
-                <span className="variable" data-name="subreddit" />
-                <span className="string">
-            <input type="text" onChange={this.onTextChange} value={this.state.value} onBlur={this.onBlur}/>
-            </span>
-            </p>
-        </div>;
+        return <input style={this.getStyle()} type="text" onChange={this.onTextChange} value={this.state.value} onBlur={this.onBlur}/>;
+
     }
 }

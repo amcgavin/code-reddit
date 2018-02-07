@@ -5,16 +5,13 @@ const styles = {
     color: 'darkorchid'
 }
 
-const IfThen = (Left, Right) => ({ left, right, children, ...props }) => <div>
-    <span {...props}>
+const IfThen = (Left, Equality, Right) => ({ left, equality, right, ...props }) => <span {...props}>
         <Jargon style={styles}>if</Jargon>
         <Jargon>(</Jargon>
         <Left value={left} />
-        <Jargon> === </Jargon>
+        <Equality value={equality} />
         <Right value={right} />
         <Jargon>)</Jargon>
-        </span>
-    {children}
-</div>;
+        </span>;
 
-export default (Left, Right) => IfThen(Left, Right);
+export default (Left, Equality, Right) => IfThen(Left, Equality, Right);

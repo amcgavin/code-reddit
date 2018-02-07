@@ -1,3 +1,3 @@
 import React from 'react';
 
-export default ({children, style}) => <span style={style} className="text" data-text={children}/>;
+export default ({children, ...props}) => <span {...props} className="text" data-text={children}/>;

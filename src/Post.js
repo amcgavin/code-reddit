@@ -8,13 +8,16 @@ import Statement from './components/Statement';
 import Function from './components/Function';
 import FunctionCall from './components/FunctionCall';
 import IfThen from './components/IfThen';
+import Constant from './components/Constant';
 
-const FormattedText = ({ children }) => <p className="formatted">{_.unescape(children)}</p>
+const Empty = () => null;
+const FormattedText = ({ children }) => <div className="formatted">{_.unescape(children)}</div>
 
-const IfThenFunctionString = IfThen(FunctionCall, QuoteString);
+const IfThenFunctionString = IfThen(FunctionCall, Empty, Empty);
 
 const renderComments = (comments) => comments.map(comment => (<Comment key={comment.data.id} {...comment.data} />));
 
+const Clickable = ({children}) => <span className="clickable">{children}</span>;
 
 class Comment extends React.PureComponent {
     state = { hidden: false };
@@ -24,22 +27,29 @@ class Comment extends React.PureComponent {
     }
 
     renderBody = () => {
-        return <IfThenFunctionString left="getNextAuthor" right={this.props.author}>
-            <Block>
-                <BlockComment>
-                    <FormattedText>{this.props.body}</FormattedText>
-                </BlockComment>
-                <div>
-                    {this.props.replies ? renderComments(this.props.replies.data.children) : null}
-                </div>
-            </Block>
-        </IfThenFunctionString>
+        return <div>
+            <Statement>
+                <Declaration value="author"><QuoteString value={this.props.author} /></Declaration>
+            </Statement>
+            <Statement>
+                <Declaration value="score"><Constant value={this.props.score} /></Declaration>
+            </Statement>
+            <BlockComment>
+                <FormattedText>{this.props.body}</FormattedText>
+            </BlockComment>
+            <div>
+                {this.props.replies ? renderComments(this.props.replies.data.children) : null}
+            </div>
+        </div>
+
     };
 
     render() {
         return <div className="chain-link">
-            <span onClick={this.onToggle} className="chain-link-control" />
-            {this.state.hidden ? null : this.renderBody()}
+            <Clickable><IfThenFunctionString onClick={this.onToggle} left={`!${this.state.hidden ? 'showNextComment' : 'hideNextComment'}`} /></Clickable>
+            <Block>
+                {this.state.hidden ? null : this.renderBody()}
+            </Block>
         </div>;
     }
 }
@@ -81,8 +91,6 @@ export default class Post extends React.PureComponent {
         });
     }
 
-
-
     getDataState = () => {
         if (this.state.loading) return 'loadingComments';
         if (!this.state.commentsLoaded) return 'getComments';
@@ -93,15 +101,30 @@ export default class Post extends React.PureComponent {
     renderMainBlock = () => (
         <div>
             <Statement>
+                <Declaration value="subreddit"><QuoteString value={this.props.subreddit} /></Declaration>
+            </Statement>
+            <Statement>
                 <Declaration value="fullTitle">
                     <QuoteString value={this.props.title} />
                 </Declaration>
             </Statement>
-            <BlockComment>
-                <FormattedText>{this.props.selftext}</FormattedText>
-            </BlockComment>
-
-            <Statement><FunctionCall onClick={this.loadComments} value={this.getDataState()} /></Statement>
+            <Statement>
+                <Declaration value="score"><Constant value={this.props.score} /></Declaration>
+            </Statement>
+            <Statement>
+                <Declaration value="url"><QuoteString value={this.props.url} /></Declaration>
+            </Statement>
+            <Statement>
+                <Declaration value="author"><QuoteString value={this.props.author} /></Declaration>
+            </Statement>
+            <p></p>
+            {this.props.selftext ?
+                <BlockComment>
+                    <FormattedText>{this.props.selftext}</FormattedText>
+                </BlockComment>
+                : null}
+            <Statement><Clickable><FunctionCall onClick={this.loadComments} value={this.getDataState()} /></Clickable></Statement>
+            <p></p>
             {this.state.collapsedComments ? null : renderComments(this.state.comments)}
 
         </div>
@@ -109,7 +132,7 @@ export default class Post extends React.PureComponent {
 
     render() {
         return <div>
-            <Function onClick={this.onTitleClicked} value={this.getShortTitle()} />
+            <Clickable><Function onClick={this.onTitleClicked} value={this.getShortTitle()} /></Clickable>
             <Block>
                 {this.state.collapsedSelf ? <p>...</p> : this.renderMainBlock()}
             </Block>
