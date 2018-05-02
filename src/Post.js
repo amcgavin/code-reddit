@@ -12,16 +12,17 @@ import UnwrappedConstant from './components/Constant';
 
 const LanguageHOC = language => Component => props => <Component language={language} {...props} />;
 
-const Javascript = LanguageHOC('python');
-const Block = Javascript(UnwrappedBlock);
-const BlockComment = Javascript(UnwrappedBlockComment);
-const Constant = Javascript(UnwrappedConstant);
-const Declaration = Javascript(UnwrappedDeclaration);
-const Function = Javascript(UnwrappedFunction);
-const FunctionCall = Javascript(UnwrappedFunctionCall);
-const IfThen = Javascript(UnwrappedIfThen);
-const QuoteString = Javascript(UnwrappedQuoteString);
-const Statement = Javascript(UnwrappedStatement);
+// todo: use redux for global state here
+const Langify = LanguageHOC('python');
+const Block = Langify(UnwrappedBlock);
+const BlockComment = Langify(UnwrappedBlockComment);
+const Constant = Langify(UnwrappedConstant);
+const Declaration = Langify(UnwrappedDeclaration);
+const Function = Langify(UnwrappedFunction);
+const FunctionCall = Langify(UnwrappedFunctionCall);
+const IfThen = Langify(UnwrappedIfThen);
+const QuoteString = Langify(UnwrappedQuoteString);
+const Statement = Langify(UnwrappedStatement);
 
 
 const FormattedText = ({ children }) => <div className="formatted">{_.unescape(children)}</div>
